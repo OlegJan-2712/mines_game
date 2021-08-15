@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MyKursach
+{
+    public partial class MainMenu : Form
+    {
+        public MainMenu()
+        {
+            InitializeComponent();
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        public void MinesButton_Click(object sender, EventArgs e)
+        {
+            Mines f = new Mines();
+            f.Show();
+        }
+
+        private void TTTButton_Click(object sender, EventArgs e)
+        {
+            Tic_Tac_Toe f = new Tic_Tac_Toe();
+            f.Show();
+        }
+    }
+}
