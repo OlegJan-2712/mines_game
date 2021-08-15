@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MyKursach
+{
+    public partial class Mines : Form
+    {
+        Mines_Settings set = new Mines_Settings();
+        int height = 10;
+        int width = 10;
+        int distanceBetweenButtons = 35;
+        ButtonExtended[,] allButtons;
+
+        public Mines()
+        {
+            InitializeComponent();
+        }
+
+        private void Mines_Load(object sender, EventArgs e)
+        {
+            Random rng = new Random();
+            allButtons = new ButtonExtended[width, height];
+            for (int x = 10; (x- width) < width * distanceBetweenButtons; x += distanceBetweenButtons)
+            {
+                for (int y = 10; (y- height) < height * distanceBetweenButtons; y += distanceBetweenButtons)
+                {
+                    ButtonExtended button = new ButtonExtended();
+                    button.Location = new Point(x + 15, y + 15);
+                    button.Size = new Size(30, 30);
+                    if (rng.Next(0, 101) < 20)
+                    {
+                        button.isBomb = true;
+                        //button.BackgroundImage = Image.FromFile(@"D:\Microsoft Visual Studio\Projeckts\mine_picture.png", false);
+                        //button.BackgroundImageLayout = ImageLayout.Center;
+                    }
+                    allButtons[(x - width) / distanceBetweenButtons, (y - height) / distanceBetweenButtons] = button;
+                    Controls.Add(button);
+                    button.Click += new EventHandler(FieldClick);
+                }
+            }
+        }
+
+        void FieldClick(object sender, EventArgs e)
+        {
+            ButtonExtended button = (ButtonExtended)sender;
+            if (button.isBomb)
+            {
+                Explode(button);
+            }
+            else
+            {
+                EmptyFieldClick(button);
+            }
+        }
+        void Explode(ButtonExtended button)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (allButtons[x, y].isBomb)
+                    {
+                        allButtons[x, y].BackgroundImage = Image.FromFile(@"D:\Microsoft Visual Studio\Projeckts\mine_picture.png", false);
+                        allButtons[x, y].BackgroundImageLayout = ImageLayout.Center;
+                    }
+                }
+            }
+            MessageBox.Show("Вы проиграли");
+        }
+
+        void EmptyFieldClick(ButtonExtended button)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (allButtons[x, y] == button)
+                        button.Text = "" + CountBombsAround(x, y);
+                }
+            }
+        }
+
+        int CountBombsAround(int xB, int yB)
+        {
+            int bombCount = 0;
+            for (int x = xB - 1; x <= xB + 1; x++)
+            {
+                for (int y = yB - 1; y <= yB + 1; y++)
+                {
+                    if (x >= 0 && x < width && y >= 0 && y < height)
+                    {
+                        if (allButtons[x, y].isBomb)
+                        {
+                            allButtons[x, y].bombCount++;
+                            bombCount++;
+                        }
+                    }
+                }
+            }
+            return bombCount;
+        }
+
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Mines_Settings f = new Mines_Settings();
+            f.Show();
+        }
+        private void gemeToolStripMenuItem_Click(object sender, EventArgs e){}
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Mines f = new Mines();
+            f.Show();
+        }
+    }
+
+    
+    class ButtonExtended : Button
+    {
+        public bool isBomb;
+        public int bombCount = 0;
+    }
+}
