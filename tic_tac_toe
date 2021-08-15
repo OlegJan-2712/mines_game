@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MyKursach
+{
+    public partial class Tic_Tac_Toe : Form
+    {
+        bool xTurn = true;
+        public Tic_Tac_Toe()
+        {
+            InitializeComponent();
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            if (xTurn)
+            {
+                button.BackgroundImage = Image.FromFile(@"D:\Microsoft Visual Studio\Projeckts\letter-x.png", false);
+                button.BackgroundImageLayout = ImageLayout.Zoom;
+                button.Text = "X";
+            }
+            else
+            {
+                button.BackgroundImage = Image.FromFile(@"D:\Microsoft Visual Studio\Projeckts\letter-o.png", false);
+                button.BackgroundImageLayout = ImageLayout.Zoom;
+                button.Text = "0";
+            }
+            xTurn = !xTurn;
+            button.Enabled = false;
+            CheckWin(button);
+        }
+        void CheckWin(Button passedButton)
+        {
+            if (button1.Text == button2.Text && button2.Text == button3.Text && button1.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button4.Text == button5.Text && button5.Text == button6.Text && button4.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button7.Text == button8.Text && button8.Text == button9.Text && button7.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button1.Text == button4.Text && button4.Text == button9.Text && button9.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button2.Text == button5.Text && button8.Text == button5.Text && button5.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button3.Text == button6.Text && button7.Text == button6.Text && button7.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button1.Text == button5.Text && button7.Text == button5.Text && button7.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+            if (button3.Text == button5.Text && button9.Text == button5.Text && button5.Enabled == false) { MessageBox.Show("Win " + passedButton.Text); this.Close(); Tic_Tac_Toe f = new Tic_Tac_Toe(); f.Show(); }
+        }
+
+        private void Tic_Tac_Toe_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void restartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Tic_Tac_Toe f = new Tic_Tac_Toe();
+            f.Show();
+        }
+
+        private void xToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            xTurn = true;
+        }
+
+        private void oToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            xTurn = false;
+        }
+    }
+}
